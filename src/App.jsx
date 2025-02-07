@@ -7,7 +7,7 @@ import QuizSummary from './components/QuizQuestion/QuizSummary';
 const App = () => {
 
   return (
-    <Router>
+    <Router basename ="Quiz-App">
       <Routes>
         <Route path="/" element={<StartQuiz />} />
         <Route path="/quiz" element={<QuizQuestion />} />

@@ -8,4 +8,6 @@ export default defineConfig({
   plugins: [react(), 
     tailwindcss()
   ],
+  base: '/Quiz-App/'
+
 })
