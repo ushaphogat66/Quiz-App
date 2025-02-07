@@ -78,80 +78,88 @@ const QuizQuestion = () => {
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
-    <div className=" min-h-screen p-4">
-      {/* Timer */}
-      <div className="mb-4 text-lg font-bold text-red-600">
-        Time Left: {Math.floor(timeLeft / 60)}:
-        {(timeLeft % 60).toString().padStart(2, "0")}
-      </div>
-
-      {/* Question Card */}
-      <div className="w-full bg-white p-6 md:p-8 rounded-lg">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
-          🎯 Question {currentQuestionIndex + 1}
-        </h1>
-        <p className="text-lg md:text-xl text-gray-700 mt-3">
-          {currentQuestion.description}
-        </p>
-
-        {/* Options */}
-        <div className="mt-6 space-y-4">
-          {currentQuestion.options.map((option) => (
-            <label
-              key={option.id}
-              className={`flex w-[400px] items-center space-x-3 cursor-pointer p-2 rounded-md transition duration-200 ${
-                userResponses[currentQuestion.id] === option.id
-                  ? "bg-blue-100"
-                  : ""
-              }`}
-            >
-              <input
-                type="radio"
-                name={`question-${currentQuestion.id}`}
-                checked={userResponses[currentQuestion.id] === option.id}
-                onChange={() =>
-                  handleOptionSelect(currentQuestion.id, option.id)
-                }
-                className="hidden"
-              />
-              <div
-                className={`w-5 h-5 border-2 rounded-full flex justify-center items-center ${
-                  userResponses[currentQuestion.id] === option.id
-                    ? "border-blue-600"
-                    : "border-gray-400"
-                }`}
-              >
-                {userResponses[currentQuestion.id] === option.id && (
-                  <div className="w-3 h-3 bg-blue-600 rounded-full"></div>
-                )}
-              </div>
-              <span className="text-gray-800 text-lg">
-                {option.description}
-              </span>
-            </label>
-          ))}
+    <div className="min-h-screen p-4 bg-gray-50">
+      {/* Timer and Progress Bar */}
+      <div className="max-w-3xl mx-auto">
+        <div className="flex justify-between items-center mb-6">
+          <div className="text-lg font-bold text-red-600 bg-white p-3 rounded-lg shadow-sm">
+            ⏳ Time Left: {Math.floor(timeLeft / 60)}:
+            {(timeLeft % 60).toString().padStart(2, "0")}
+          </div>
+          <div className="text-lg font-bold text-gray-700 bg-white p-3 rounded-lg shadow-sm">
+            📊 Progress: {currentQuestionIndex + 1} / {questions.length}
+          </div>
         </div>
 
-        {/* Navigation Buttons */}
-        <div className="mt-6 flex  absolute bottom-10 right-10 space-x-4">
-          {" "}
-          <button
-            onClick={handlePrevious}
-            disabled={currentQuestionIndex === 0}
-            className={`px-5 py-2 rounded-lg text-white font-semibold ${
-              currentQuestionIndex === 0
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-gray-700 hover:bg-gray-900"
-            }`}
-          >
-            Previous
-          </button>
-          <button
-            onClick={handleNext}
-            className="px-5 py-2 rounded-lg bg-blue-600 hover:bg-blue-800 text-white font-semibold"
-          >
-            {currentQuestionIndex === questions.length - 1 ? "Submit" : "Next"}
-          </button>
+        {/* Progress Bar */}
+        <div className="w-full bg-gray-200 rounded-full h-2 mb-8">
+          <div
+            className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+            style={{
+              width: `${((currentQuestionIndex + 1) / questions.length) * 100}%`,
+            }}
+          ></div>
+        </div>
+
+        {/* Question Card */}
+        <div className="w-full bg-white p-6 md:p-8 rounded-lg shadow-lg">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+            🎯 Question {currentQuestionIndex + 1}
+          </h1>
+          <p className="text-lg md:text-xl text-gray-700 mb-6">
+            {currentQuestion.description}
+          </p>
+
+          {/* Options */}
+          <div className="space-y-4">
+            {currentQuestion.options.map((option) => (
+              <div
+                key={option.id}
+                className={`flex items-center space-x-4 p-4 rounded-lg cursor-pointer transition-all duration-200 ${
+                  userResponses[currentQuestion.id] === option.id
+                    ? "bg-blue-50 border-2 border-blue-600"
+                    : "bg-white hover:bg-gray-50 border-2 border-gray-200"
+                }`}
+                onClick={() => handleOptionSelect(currentQuestion.id, option.id)}
+              >
+                <div
+                  className={`w-6 h-6 border-2 rounded-full flex items-center justify-center transition-all duration-200 ${
+                    userResponses[currentQuestion.id] === option.id
+                      ? "border-blue-600"
+                      : "border-gray-400"
+                  }`}
+                >
+                  {userResponses[currentQuestion.id] === option.id && (
+                    <div className="w-3 h-3 bg-blue-600 rounded-full transition-all duration-200"></div>
+                  )}
+                </div>
+                <span className="text-gray-800 text-lg">{option.description}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Navigation Buttons */}
+          <div className="mt-8 flex justify-between">
+            <button
+              onClick={handlePrevious}
+              disabled={currentQuestionIndex === 0}
+              className={`px-6 py-3 rounded-lg text-white font-semibold transition-all duration-200 ${
+                currentQuestionIndex === 0
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-gray-700 hover:bg-gray-900"
+              }`}
+            >
+              ⬅️ Previous
+            </button>
+            <button
+              onClick={handleNext}
+              className="px-6 py-3 rounded-lg bg-blue-600 hover:bg-blue-800 text-white font-semibold transition-all duration-200"
+            >
+              {currentQuestionIndex === questions.length - 1
+                ? "Submit 🚀"
+                : "Next ➡️"}
+            </button>
+          </div>
         </div>
       </div>
     </div>
