@@ -15,7 +15,7 @@ You can access the live application at:
 - **Dynamic Questions**: Fetches quiz data from an external API.
 - **Result Summary**: Displays total points scored upon quiz completion.
 - **Clean and Intuitive Design**: User-friendly interface for an enhanced experience.
-- **Gamification Elements**: Engaging features to motivate users (optional).
+- **Gamification Elements**: Engaging features to motivate users.
 
 ## Prerequisites
 
